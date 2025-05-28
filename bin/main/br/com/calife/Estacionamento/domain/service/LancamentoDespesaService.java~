@@ -1,0 +1,59 @@
+package br.com.calife.ControleFinanceiro.domain.service;
+
+import br.com.calife.ControleFinanceiro.core.exception.GenericException;
+import br.com.calife.ControleFinanceiro.domain.entity.DTO.LancamentoDespesaDTO;
+import br.com.calife.ControleFinanceiro.domain.entity.LancamentoDespesa;
+import br.com.calife.ControleFinanceiro.domain.repository.LancamentoDespesaRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@AllArgsConstructor
+public class LancamentoDespesaService {
+
+    private final LancamentoDespesaRepository repository;
+
+    public LancamentoDespesaDTO findByIdDTO(Integer id) {
+        LancamentoDespesa objSaved = repository.findById(id).orElseThrow(() ->
+                new GenericException("Lançamento da despesa não encontrado"));
+
+        LancamentoDespesaDTO obj = new LancamentoDespesaDTO(objSaved);
+
+        return obj;
+    }
+
+    public List<LancamentoDespesa> findAll() {
+        return repository.findAll();
+    }
+
+    public List<LancamentoDespesaDTO> findAllDTO() {
+        List<LancamentoDespesa>  list = repository.findAll();
+
+        List<LancamentoDespesaDTO> listDTO = list.stream().map(obj ->
+                new LancamentoDespesaDTO(obj)).toList();
+
+        return listDTO;
+    }
+
+    public LancamentoDespesa create(LancamentoDespesa obj) {
+        return repository.save(obj);
+    }
+
+    public LancamentoDespesa update(LancamentoDespesa obj) {
+        LancamentoDespesa objSaved = findById(obj.getId());
+
+        BeanUtils.copyProperties(obj, objSaved, "id");
+
+        return repository.save(objSaved);
+    }
+
+    public void delete(Integer id) {
+        LancamentoDespesa objSaved = findById(id);
+        repository.delete(objSaved);
+    }
+
+}

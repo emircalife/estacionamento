@@ -1,0 +1,11 @@
+package br.calife.cve.core.documentation;
+
+import br.calife.cve.core.http.response.ResponseDTO;
+
+public interface Documentation<T> {
+
+	public class GenericResponseDTO<T> extends ResponseDTO<T> {
+
+	}
+
+}

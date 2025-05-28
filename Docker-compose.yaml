@@ -1,0 +1,15 @@
+services:
+  db:
+    image: mysql/mysql-server:latest
+    container_name: estacionamento-mysql
+    environment:
+      MYSQL_DATABASE: estacionamentodb
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - '3306:3306'
+      - '8086:8086'
+    volumes:
+      - mysql-volume:/var/lib/mysql
+    restart: unless-stopped
+volumes:
+  mysql-volume:

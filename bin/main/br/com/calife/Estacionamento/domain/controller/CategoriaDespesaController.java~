@@ -1,0 +1,51 @@
+package br.com.calife.ControleFinanceiro.domain.controller;
+
+import br.com.calife.ControleFinanceiro.domain.documentation.CategoriaDespesaDocumentation;
+import br.com.calife.ControleFinanceiro.domain.entity.CategoriaDespesa;
+import br.com.calife.ControleFinanceiro.domain.service.CategoriaDespesaService;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@AllArgsConstructor
+@RequestMapping("categoriaDespesa")
+public class CategoriaDespesaController implements CategoriaDespesaDocumentation {
+    @Autowired
+    private CategoriaDespesaService service;
+
+    @Override
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoriaDespesa> findById(@PathVariable("id") Integer id) {
+        CategoriaDespesa obj = service.findById(id);
+        return ResponseEntity.ok(obj);
+    }
+
+    @Override
+    @DeleteMapping("/{id}")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") Integer id) {
+        service.delete(id);
+    }
+
+    @GetMapping
+    public List<CategoriaDespesa> findAll() {
+        return service.findAll();
+    }
+
+    @PostMapping
+    public ResponseEntity<CategoriaDespesa> create(@RequestBody CategoriaDespesa obj) {
+        CategoriaDespesa objSaved = service.create(obj);
+        return ResponseEntity.status(HttpStatus.CREATED).body(objSaved);
+    }
+
+    @PutMapping
+    public ResponseEntity<CategoriaDespesa> update(@RequestBody CategoriaDespesa obj) {
+        CategoriaDespesa objSaved = service.update(obj);
+        return ResponseEntity.ok(objSaved);
+    }
+}

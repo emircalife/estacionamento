@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: ${ENV_FOMENTO_DATASOURCE_URL:jdbc:oracle:thin:@sigc1-vip.cnpq.br:1521/sigc.cnpq.br}
+    username: ${ENV_FOMENTO_DATASOURCE_USERNAME:FOMENTO}
+    password: ${ENV_FOMENTO_DATASOURCE_PASSWORD:FOMENTOCNPQ}
+    driverClassName: ${ENV_FOMENTO_DATASOURCE_DRIVER_CLASS_NAME:oracle.jdbc.OracleDriver}
+    initialize: true
+    schema: schema.sql
+  jpa:
+    hibernate:
+      ddl-auto: none # none, create , create-drop , validate e update
+      naming:
+        physical-strategy: ${ENV_FOMENTO_DATASOURCE_PHISICAL_STRATEGY:org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl}
+    show-sql: true
+    generate-ddl: false
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+        #dialect: ${ENV_FOMENTO_DATASOURCE_DIALECT:org.hibernate.dialect.MySQL8Dialect}
+        #use_jdbc_metadata_defaults: false
+      format-sql: true
+      use-sql-comments: true
+      #database-plataform: ${ENV_FOMENTO_DATASOURCE_DIALECT:org.hibernate.dialect.MySQL8Dialect}
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: default

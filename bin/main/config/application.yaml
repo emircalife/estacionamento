@@ -1,0 +1,37 @@
+server:
+  port: 8085
+  servlet:
+    context-path: /estacionamento-api
+
+spring:
+  application:
+    name: sec
+    version: 0.0.5-SNAPSHOT
+  main:
+    allow-bean-definition-overriding: true
+    banner-mode: console
+  profiles:
+    active: ${ENV_ENVIRONMENT:dev}
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+    deserialization:
+      ACCEPT_EMPTY_STRING_AS_NULL_OBJECT: true
+      ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT: true
+
+management:
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus
+
+  

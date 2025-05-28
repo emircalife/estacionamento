@@ -1,0 +1,58 @@
+package br.com.calife.ControleFinanceiro.domain.controller;
+
+import br.com.calife.ControleFinanceiro.domain.documentation.LancamentoDespesaDocumentation;
+import br.com.calife.ControleFinanceiro.domain.entity.DTO.LancamentoDespesaDTO;
+import br.com.calife.ControleFinanceiro.domain.entity.LancamentoDespesa;
+import br.com.calife.ControleFinanceiro.domain.service.LancamentoDespesaService;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@AllArgsConstructor
+@RequestMapping("LancamentoDespesa")
+public class LancamentoDespesaController implements LancamentoDespesaDocumentation {
+    @Autowired
+    private LancamentoDespesaService service;
+
+    @Override
+    @GetMapping("/{id}")
+    public ResponseEntity<LancamentoDespesa> findById(@PathVariable("id") Integer id) {
+        LancamentoDespesa obj = service.findById(id);
+        return ResponseEntity.ok(obj);
+    }
+
+    @GetMapping("/{idDTO}")
+    public ResponseEntity<LancamentoDespesaDTO> findByIdDTO(@PathVariable("id") Integer id) {
+        LancamentoDespesaDTO obj = service.findByIdDTO(id);
+        return ResponseEntity.ok(obj);
+    }
+
+    @Override
+    @DeleteMapping("/{id}")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") Integer id) {
+        service.delete(id);
+    }
+
+    @GetMapping
+    public List<LancamentoDespesaDTO> findAll() {
+        return service.findAllDTO();
+    }
+
+    @PostMapping
+    public ResponseEntity<LancamentoDespesa> create(@RequestBody LancamentoDespesa obj) {
+        LancamentoDespesa objSaved = service.create(obj);
+        return ResponseEntity.status(HttpStatus.CREATED).body(objSaved);
+    }
+
+    @PutMapping
+    public ResponseEntity<LancamentoDespesa> update(@RequestBody LancamentoDespesa obj) {
+        LancamentoDespesa objSaved = service.update(obj);
+        return ResponseEntity.ok(objSaved);
+    }
+}

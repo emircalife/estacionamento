@@ -1,0 +1,11 @@
+
+${AnsiColor.GREEN} ███████╗  ███████╗  ███████╗  ██╗  ██╗
+${AnsiColor.GREEN} ██╔════╝    ███╔═╝  ██╔════╝  ███╗ ██║
+${AnsiColor.GREEN} █████║      ███║    ██║       ████╗██║
+${AnsiColor.GREEN} ██║         ███║    ██║       ██╔████║
+${AnsiColor.GREEN} ███████╗    ███║    ███████╗  ██║  ██║
+${AnsiColor.GREEN} ╚══════╝    ╚══╝    ╚══════╝  ╚═╝  ╚═╝
+
+${AnsiColor.BRIGHT_BLUE}:: Emir Calife Microservices :: Running Spring Boot ${spring-boot.version} :: Startup profile(s) ${spring.profiles.active} ::
+:: https://www.calife.com.br :: App ${spring.application.name} :: Version ${spring.application.version} :: Powered by Emir Calife :: ${AnsiColor.DEFAULT}
+
