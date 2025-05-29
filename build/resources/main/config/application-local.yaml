@@ -1,29 +1,72 @@
+# Configuração do servidor
 server:
-  port: 3306
+  # Porta na qual o servidor da aplicação irá escutar por requisições.
+  port: 8086
+
+# Configurações específicas do Spring Boot
 spring:
+  # Configuração do Datasource para conectar ao banco de dados
   datasource:
+    # URL JDBC para conectar ao banco de dados MySQL.
+    # 'host.docker.internal' é um nome DNS especial que resolve para o endereço IP interno da máquina host de
+    #     dentro de um contêiner Docker.
+    # 'estacionamentodb' é o nome do banco de dados.
     url: jdbc:mysql://host.docker.internal:3306/estacionamentodb
+    # Nome de usuário para autenticação no banco de dados.
     username: root
+    # Senha para autenticação no banco de dados.
     password: root
+    # Nome completo da classe do driver JDBC.
     driver-class-name: com.mysql.cj.jdbc.Driver
+  # Configurações de inicialização SQL
   sql:
     init:
+      # Modo para inicialização do banco de dados.
+      # 'always': Sempre inicializa o banco de dados usando os schema-locations.
+      # Outras opções incluem 'embedded' (apenas para bancos de dados embarcados) e 'never'.
       mode: always
+      # Localização(ões) dos scripts de esquema SQL a serem executados na inicialização.
+      # 'classpath:schema.sql' significa que o arquivo schema.sql está localizado no classpath (ex: src/main/resources).
       schema-locations: classpath:schema.sql
+  # Configurações específicas da Java Persistence API (JPA)
   jpa:
+    # Configurações específicas do Hibernate (Hibernate é um provedor JPA)
     hibernate:
+      # Estratégia de auto-geração de Data Definition Language (DDL).
+      # 'none': Nenhum DDL será gerado automaticamente pelo Hibernate. Esta é uma boa prática
+      #         para produção e ao usar ferramentas de gerenciamento de esquema como Flyway ou Liquibase,
+      #         ou scripts DDL manuais (conforme indicado por sql.init.mode=always).
+      # Outras opções: 'create', 'create-drop', 'update', 'validate'.
       ddl-auto: none
+      # Estratégia de nomeação para mapear nomes de entidades e atributos para tabelas e colunas do banco de dados.
+      # 'PhysicalNamingStrategyStandardImpl': Usa os nomes exatos conforme definidos nas entidades.
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    # Se deve mostrar as instruções SQL geradas pelo Hibernate nos logs.
+    # Útil para depuração e para entender o que o Hibernate está fazendo.
     show-sql: true
+    # Se o JPA deve tentar gerar DDL.
+    # Definido como 'false' porque ddl-auto é 'none' e a inicialização do esquema é tratada por sql.init.
     generate-ddl: false
+    # Propriedades adicionais específicas do Hibernate
     properties:
       hibernate:
+        # Se deve colocar globalmente todos os identificadores do banco de dados (nomes de tabelas e colunas) entre aspas.
+        # Útil se os nomes de suas tabelas/colunas forem palavras-chave reservadas do SQL ou contiverem caracteres especiais.
         globally_quoted_identifiers: true
+        # O dialeto SQL a ser usado pelo Hibernate para gerar SQL otimizado para MySQL 8.
         dialect: org.hibernate.dialect.MySQL8Dialect
+        # Se deve formatar o SQL registrado por 'show-sql'. Torna-o mais legível.
         format_sql: true
+        # Se deve incluir comentários no SQL registrado por 'show-sql'.
+        # Pode fornecer contexto para as queries geradas.
         use_sql_comments: true
+  # Configurações específicas do Spring Data JPA
   data:
     jpa:
+      # Configuração para repositórios Spring Data JPA
       repositories:
+        # Modo de inicialização (bootstrap) para repositórios JPA.
+        # 'default': Os repositórios são inicializados avidamente (eagerly) na inicialização da aplicação.
+        # Outras opções: 'lazy', 'deferred'.
         bootstrap-mode: default
